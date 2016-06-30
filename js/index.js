@@ -33,11 +33,49 @@ window.onload = function () {
     if (req.readyState === XMLHttpRequest.DONE) {
       var data = JSON.parse(req.response)
       window.reddit_feed = data;
+
+      startProcess();
     }
   }
   var time = document.querySelectorAll('.time')
   for (var i = 0; i < time.length; i++) {
     var unixTime = time[i].innerHTML;
     time[i].innerHTML = moment.unix(unixTime);
+  }
+}
+
+//ALL CUSTOM CODE GOES IN HERE
+function startProcess(){
+  for (var i=0; i < reddit_feed.data.length; i++){
+    var currentArticle = window.reddit_feed.data[i];
+    var author = currentArticle.author; 
+    
+    //Create HTML elements in memory
+    var container = document.createElement('div'); 
+    container. className = "col-sm-12 col-md-4";
+    var post = document.createElement('div');
+    var title= document.createElement('div');
+    post.className= "post";
+    container.appendChild(post);
+
+    var thumbnail = document.createElement('div'); 
+    container.appendChild(thumbnail);
+
+    var link = document.createElement('a')
+    link.href = "javascript.void('0')";
+    post.appendChild(link)
+
+    
+    //assign elements a value: 
+    title.innerHTML = currentArticle.title;
+    //nest elements inside eachother
+
+    container.className = "col-sm-12 col-md-4";
+    author.className = "col-sm-12 col-md-4";
+    var post = document.createElement('div'); 
+    container.appendChild(title);
+    container.appendChild(thumbnail);
+
+    document.getElementById('main').appendChild(container);
   }
 }
